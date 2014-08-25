@@ -83,9 +83,10 @@ class Titles(gamemode.GameMode):
         cy += 100
         
         hy = cy
+        iy = cy
         
         self.items.append( MenuItem(itemFont, "Play", cx, cy) )
-        cy += 50
+        cy += 70
         
         self.items.append( MenuItem(itemFont, "Exit", cx, cy) )
         
@@ -110,9 +111,27 @@ class Titles(gamemode.GameMode):
         rect = text.get_rect( x=hx, centery=hy )
         self.screen.blit(text, rect)
         hy += rect.height
+        
+        """
+        ix = screen.get_width()/20
+        
+        text = helpFont.render( "Shoot the aliens" , 1 , (255,255,255) )
+        rect = text.get_rect( x=ix, centery=iy )
+        self.screen.blit(text, rect)
+        iy += rect.height
+        
+        text = helpFont.render( "Don't let them touch you" , 1 , (255,255,255) )
+        rect = text.get_rect( x=ix, centery=iy )
+        self.screen.blit(text, rect)
+        iy += rect.height
+        
+        text = helpFont.render( "Don't fly off into deep space" , 1 , (255,255,255) )
+        rect = text.get_rect( x=ix, centery=iy )
+        self.screen.blit(text, rect)
+        iy += rect.height
+        """
 
         # music & sounds
-        
         self.shootSound = pygame.mixer.Sound("resource/sounds/bazooka_fire.ogg")
         self.shootSound.set_volume(0.5)
         self.explosionSound = pygame.mixer.Sound("resource/sounds/explosion.ogg")

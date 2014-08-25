@@ -17,6 +17,8 @@ size = width, height = camera.WIN_WIDTH, camera.WIN_HEIGHT
 
 screen = pygame.display.set_mode(size)
 
+pygame.display.set_caption("Space Fight 3000 (II)")
+
 while True:
 
     tit = titles.Titles(screen)

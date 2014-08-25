@@ -174,7 +174,7 @@ class Person(mob.Mob):
         elif dy < 0:
             theta += math.pi
             
-        acc = 10000
+        acc = 50000
         
         self.boostx = acc * math.sin( theta )
         self.boosty = acc * math.cos( theta )

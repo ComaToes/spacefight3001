@@ -206,6 +206,8 @@ class BaseLevel(gamemode.GameMode):
             self.screen.blit( self.heartSprite, (hx, 10) )
             hx += self.heartSprite.get_width() + 10
         
+        if self.player.x < -self.mapWidth or self.player.x > self.mapWidth or self.player.y < -self.mapHeight or self.player.y > self.mapHeight:
+            self.stop( result.Result(False,0,0) )
         
         pygame.display.flip()
 
