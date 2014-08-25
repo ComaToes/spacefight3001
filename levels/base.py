@@ -1,4 +1,4 @@
-import gamemode, planet, pygame, player, bullet, camera, enemy, random
+import gamemode, planet, pygame, player, bullet, camera, enemy, result
 
 class BaseLevel(gamemode.GameMode):
     
@@ -114,9 +114,19 @@ class BaseLevel(gamemode.GameMode):
             
         for person in self.people:
             if person.movable:
+                
                 for planet in pygame.sprite.spritecollide(person, self.planets, False):
                     if pygame.sprite.collide_mask(planet, person):
                         person.attachToPlanet(planet)
+                        
+        for enemy in pygame.sprite.spritecollide(self.player, self.enemies, False):
+            if pygame.sprite.collide_mask(enemy, self.player):
+                self.enemies.remove(enemy)
+                self.people.remove(enemy)
+                self.mobs.remove(enemy)
+                self.painSound.play()
+                if not self.player.damage():
+                    self.stop( result.Result(False, 0, 0) )
                     
         for b in self.bullets:
             if b.movable:

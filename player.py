@@ -9,3 +9,8 @@ class Player(person.Person):
         self.walkRightAnim = walkRightAnim
         self.staticLeftImage = self.walkLeftAnim.images[0]
         self.staticRightImage = self.walkRightAnim.images[0]
+        self.health = 5
+        
+    def damage(self):
+        self.health -= 1
+        return self.health > 0

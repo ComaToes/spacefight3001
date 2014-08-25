@@ -1,11 +1,13 @@
 import gamemode, pygame, camera, titles
+import result
 
 class LevelSummary(gamemode.GameMode):
     
-    def __init__(self, screen):
+    def __init__(self, screen, result):
         gamemode.GameMode.__init__(self)
         
         self.screen = screen
+        self.result = result
         
         self.background = pygame.image.load("resource/images/starfield.png").convert()
         
@@ -27,17 +29,31 @@ class LevelSummary(gamemode.GameMode):
         ball = pygame.transform.scale(ball,(1200,1200))
         self.screen.blit(ball,pygame.Rect(1450,-200,0,0))
 
+        titleFont = pygame.font.SysFont("monospace", 100, True)
         itemFont = pygame.font.SysFont("monospace", 32, True)
         
         cx = self.screen.get_width()/2
-        cy = 400
+        cy = 200
+        
+        if self.result.success:
+            titleText = "Level Complete"
+        else:
+            titleText = "You Died"
+        
+        text = titleFont.render( titleText , 1 , (255,0,0) )
+        rect = text.get_rect( centerx=cx, centery=cy )
+        self.screen.blit(text, rect)
+        cy += rect.height
        
         self.items = []
 
-        self.items.append( titles.MenuItem(itemFont, "Play", cx, cy) )
-        cy += 50
+        if self.result.success:
+            menuText = "Next Level"
+        else:
+            menuText = "Return to Menu"
         
-        self.items.append( titles.MenuItem(itemFont, "Exit", cx, cy) )
+        self.items.append( titles.MenuItem(itemFont, menuText, cx, cy) )
+        cy += 50
         
         # sounds
         self.shootSound = pygame.mixer.Sound("resource/sounds/bazooka_fire.ogg")
@@ -64,7 +80,7 @@ class LevelSummary(gamemode.GameMode):
                 for item in self.items:
                     if item.rect.collidepoint(mx,my):
                         self.explosionSound.play()
-                        self.stop(item.text)
+                        self.stop( result.Result(True, 0, 0) )
                                  
             if e.type == pygame.MOUSEBUTTONUP:
                 None

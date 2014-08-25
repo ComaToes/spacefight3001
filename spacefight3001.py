@@ -17,22 +17,25 @@ size = width, height = camera.WIN_WIDTH, camera.WIN_HEIGHT
 
 screen = pygame.display.set_mode(size)
 
-tit = titles.Titles(screen)
-tit.start()
+while True:
 
-if tit.result == "Exit":
-    raise SystemExit
-
-lvls = []
-
-lvls.append( levels.level1.Level1(screen) )
-lvls.append( summary.LevelSummary(screen) )
-lvls.append( levels.level2.Level2(screen) )
-
-for level in lvls:
+    tit = titles.Titles(screen)
+    tit.start()
     
-    level.start()
-    
-    if not level.result.success:
+    if tit.result == "Exit":
         raise SystemExit
 
+    lvls = []
+    
+    lvls.append( levels.level1.Level1(screen) )
+    lvls.append( levels.level2.Level2(screen) )
+
+    for level in lvls:
+        
+        level.start()
+        
+        s = summary.LevelSummary(screen, level.result)
+        s.start()
+    
+        if not level.result.success:
+            break
