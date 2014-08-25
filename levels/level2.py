@@ -1,4 +1,4 @@
-import planet, pygame, enemy, random, base
+import planet, pygame, enemy, random, base, result
 
 class Level2(base.BaseLevel):
 
@@ -24,4 +24,4 @@ class Level2(base.BaseLevel):
     def loop(self, dt):
         base.BaseLevel.loop(self, dt)
         if len( self.enemies ) == 0:
-            self.stop("WIN")
+            self.stop( result.Result(True, 0, 0) )

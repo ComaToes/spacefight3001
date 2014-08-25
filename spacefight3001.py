@@ -4,6 +4,7 @@ import camera
 import levels.level1
 import levels.level2
 import titles
+import summary
 
 camera.WIN_WIDTH = 1600
 camera.WIN_HEIGHT = 800
@@ -25,12 +26,13 @@ if tit.result == "Exit":
 lvls = []
 
 lvls.append( levels.level1.Level1(screen) )
+lvls.append( summary.LevelSummary(screen) )
 lvls.append( levels.level2.Level2(screen) )
 
 for level in lvls:
     
     level.start()
     
-    if level.result == "Fail":
+    if not level.result.success:
         raise SystemExit
 

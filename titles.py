@@ -82,13 +82,15 @@ class Titles(gamemode.GameMode):
         self.items.append( MenuItem(itemFont, "Exit", cx, cy) )
 
         # music & sounds
-        pygame.mixer.music.load("resource/music/title_music.ogg")
-        pygame.mixer.music.play(-1)
         
         self.shootSound = pygame.mixer.Sound("resource/sounds/bazooka_fire.ogg")
         self.shootSound.set_volume(0.5)
         self.explosionSound = pygame.mixer.Sound("resource/sounds/explosion.ogg")
 
+    def start(self):
+        pygame.mixer.music.load("resource/music/title_music.ogg")
+        pygame.mixer.music.play(-1)
+        gamemode.GameMode.start(self)
     
     def stop(self, result):
         gamemode.GameMode.stop(self, result)
