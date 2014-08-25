@@ -53,33 +53,63 @@ class Titles(gamemode.GameMode):
         screen.blit(ball,pygame.Rect(1450,-200,0,0))
         
         # text
-        titleFont = pygame.font.SysFont("monospace", 100, True)
-        itemFont = pygame.font.SysFont("monospace", 32, True)
+        titleFont = pygame.font.SysFont("verdana", 80, True)
+        itemFont = pygame.font.SysFont("monospace", 40, True)
+        helpFont = pygame.font.SysFont("monospace", 32, True)
         
         cx = screen.get_width()/2
         cy = 100
         
         text = titleFont.render( "Space" , 1 , (255,0,0) )
-        rect = text.get_rect( centerx=cx, centery=cy )
+        rect = text.get_rect( centerx=cx - 100, centery=cy )
         self.screen.blit(text, rect)
         cy += rect.height
         text = titleFont.render( "Fight" , 1 , (0,0,255) )
         rect = text.get_rect( centerx=cx, centery=cy )
         self.screen.blit(text, rect)
         cy += rect.height
-        text = titleFont.render( "3001" , 1 , (255,255,0) )
-        rect = text.get_rect( centerx=cx, centery=cy )
+        text = titleFont.render( "3000" , 1 , (255,255,0) )
+        rect = text.get_rect( centerx=cx + 100, centery=cy )
+        self.screen.blit(text, rect)
+        cy += rect.height
+
+        text = titleFont.render( "(II)" , 1 , (255,255,0) )
+        rect = text.get_rect( centerx=cx + 200, centery=cy )
         self.screen.blit(text, rect)
         cy += rect.height
         
         self.items = []
         
-        cy += 150
+        cy += 100
+        
+        hy = cy
         
         self.items.append( MenuItem(itemFont, "Play", cx, cy) )
         cy += 50
         
         self.items.append( MenuItem(itemFont, "Exit", cx, cy) )
+        
+        hx = screen.get_width()/6 * 4
+
+        text = helpFont.render( "Walk: WASD" , 1 , (255,255,255) )
+        rect = text.get_rect( x=hx, centery=hy )
+        self.screen.blit(text, rect)
+        hy += rect.height
+
+        text = helpFont.render( "Jump: Space" , 1 , (255,255,255) )
+        rect = text.get_rect( x=hx, centery=hy )
+        self.screen.blit(text, rect)
+        hy += rect.height
+
+        text = helpFont.render( "Shoot: Left Mouse" , 1 , (255,255,255) )
+        rect = text.get_rect( x=hx, centery=hy )
+        self.screen.blit(text, rect)
+        hy += rect.height
+
+        text = helpFont.render( "Boost: Right Mouse" , 1 , (255,255,255) )
+        rect = text.get_rect( x=hx, centery=hy )
+        self.screen.blit(text, rect)
+        hy += rect.height
 
         # music & sounds
         
