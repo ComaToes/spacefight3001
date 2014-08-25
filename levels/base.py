@@ -11,7 +11,7 @@ class BaseLevel(gamemode.GameMode):
         self.background = pygame.image.load("resource/images/starfield.png").convert()
         
         self.bulletSprite = pygame.image.load("resource/sprites/tempRound.png").convert_alpha()
-        
+        self.boostSprite = pygame.image.load("resource/sprites/splode2.png").convert_alpha()
         self.heartSprite = pygame.image.load("resource/sprites/heart.png").convert_alpha()
         self.arrowSpriteTop = pygame.image.load("resource/sprites/arrow.png").convert_alpha()
         self.arrowSpriteLeft = pygame.transform.rotate( self.arrowSpriteTop, 90 )
@@ -34,6 +34,8 @@ class BaseLevel(gamemode.GameMode):
         self.shootSound.set_volume(0.75)
         self.explosionSound = pygame.mixer.Sound("resource/sounds/explosion.ogg")
         self.painSound = pygame.mixer.Sound("resource/sounds/human_pain.ogg")
+        self.boostSound = pygame.mixer.Sound("resource/sounds/sound_psh.ogg")
+        self.boostSound.set_volume(0.3)
 
     def addPlanet(self, planet):
         self.mobs.add(planet)
@@ -52,6 +54,7 @@ class BaseLevel(gamemode.GameMode):
     def stop(self, result):
         gamemode.GameMode.stop(self, result)
         pygame.mixer.music.stop()
+        self.boostSound.stop()
         
     def start(self):
         pygame.mixer.music.load("resource/music/theme.ogg")
@@ -92,14 +95,16 @@ class BaseLevel(gamemode.GameMode):
                     self.shootSound.play()
                 
                 # boost
-                if e.button == 3:
+                if e.button == 3 and self.player.movable:
                     mx, my = pygame.mouse.get_pos()
                     self.player.boost(mx-self.camera.state.x,my-self.camera.state.y)
+                    self.boostSound.play()
                     
             if e.type == pygame.MOUSEBUTTONUP:
                 
                 if e.button == 3:
                     self.player.stopBoost()
+                    self.boostSound.stop()
         
         for y in range(0,self.mapHeight,self.background.get_rect().height):
             for x in range(0,self.mapWidth,self.background.get_rect().width):
@@ -197,7 +202,12 @@ class BaseLevel(gamemode.GameMode):
                     x -= (mob.image0.get_width() - self.arrowSpriteTop.get_width()) / 2
                     y -= mob.image0.get_height() + 5
                     self.screen.blit(mob.image0, (x,y))
-        
+
+        if self.player.boostx != 0 or self.player.boosty != 0:
+            # draw boost
+            pos = self.camera.apply(self.player)
+            self.screen.blit(self.boostSprite, (pos.x-self.player.boostx/4000, pos.y-self.player.boosty/4000))
+            
         for mob in self.bullets:
             self.screen.blit(mob.image, self.camera.apply(mob))
         
@@ -206,7 +216,7 @@ class BaseLevel(gamemode.GameMode):
             self.screen.blit( self.heartSprite, (hx, 10) )
             hx += self.heartSprite.get_width() + 10
         
-        if self.player.x < -self.mapWidth or self.player.x > self.mapWidth or self.player.y < -self.mapHeight or self.player.y > self.mapHeight:
+        if self.player.x < -self.mapWidth or self.player.x > self.mapWidth*2 or self.player.y < -self.mapHeight or self.player.y > self.mapHeight*2:
             self.stop( result.Result(False,0,0) )
         
         pygame.display.flip()
