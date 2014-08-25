@@ -1,4 +1,4 @@
-import gamemode, planet, pygame, player, bullet, camera, enemy, result
+import gamemode, planet, pygame, player, bullet, camera, enemy, result, math
 
 class BaseLevel(gamemode.GameMode):
     
@@ -13,6 +13,10 @@ class BaseLevel(gamemode.GameMode):
         self.bulletSprite = pygame.image.load("resource/sprites/tempRound.png").convert_alpha()
         
         self.heartSprite = pygame.image.load("resource/sprites/heart.png").convert_alpha()
+        self.arrowSpriteTop = pygame.image.load("resource/sprites/arrow.png").convert_alpha()
+        self.arrowSpriteLeft = pygame.transform.rotate( self.arrowSpriteTop, 90 )
+        self.arrowSpriteRight = pygame.transform.rotate( self.arrowSpriteTop, -90 )
+        self.arrowSpriteBottom = pygame.transform.rotate( self.arrowSpriteTop, 180 )
         
         self.mobs = pygame.sprite.Group()
         self.planets = pygame.sprite.Group()
@@ -155,7 +159,44 @@ class BaseLevel(gamemode.GameMode):
             self.screen.blit(mob.image, self.camera.apply(mob))
         
         for mob in self.people:
-            self.screen.blit(mob.image, self.camera.apply(mob))
+            pos = self.camera.apply(mob)
+            vp = self.camera.viewport()
+            if vp.contains(pos):
+                self.screen.blit(mob.image, pos)
+            else:
+                c = intersect( 0.0, 0.0, 0.0, vp.h, vp.w/2, vp.h/2, pos.x, pos.y )
+                if c:
+                    x,y = c
+                    self.screen.blit(self.arrowSpriteLeft, c)
+                    x += self.arrowSpriteLeft.get_width() + 5
+                    y -= (mob.image0.get_height() - self.arrowSpriteLeft.get_height()) / 2
+                    self.screen.blit(mob.image0, (x,y))
+
+                c = intersect( 0.0, 0.0, vp.w, 0.0, vp.w/2, vp.h/2, pos.x, pos.y )
+                if c:
+                    x,y = c
+                    self.screen.blit(self.arrowSpriteTop, c)
+                    x -= (mob.image0.get_width() - self.arrowSpriteTop.get_width()) / 2
+                    y += self.arrowSpriteLeft.get_height() + 5
+                    self.screen.blit(mob.image0, (x,y))
+
+                c = intersect( vp.w, 0.0, vp.w, vp.h, vp.w/2, vp.h/2, pos.x, pos.y )
+                if c:
+                    x,y = c
+                    x -= self.arrowSpriteBottom.get_width()
+                    self.screen.blit(self.arrowSpriteRight, (x,y))
+                    x -= mob.image0.get_width() + 5
+                    y -= (mob.image0.get_height() - self.arrowSpriteRight.get_height()) / 2
+                    self.screen.blit(mob.image0, (x,y))
+                
+                c = intersect( 0.0, vp.h, vp.w, vp.h, vp.w/2, vp.h/2, pos.x, pos.y )
+                if c:
+                    x,y = c
+                    y -= self.arrowSpriteBottom.get_height()
+                    self.screen.blit(self.arrowSpriteBottom, (x,y))
+                    x -= (mob.image0.get_width() - self.arrowSpriteTop.get_width()) / 2
+                    y -= mob.image0.get_height() + 5
+                    self.screen.blit(mob.image0, (x,y))
         
         for mob in self.bullets:
             self.screen.blit(mob.image, self.camera.apply(mob))
@@ -165,4 +206,53 @@ class BaseLevel(gamemode.GameMode):
             self.screen.blit( self.heartSprite, (hx, 10) )
             hx += self.heartSprite.get_width() + 10
         
+        
         pygame.display.flip()
+
+def intersect(p0_x, p0_y, p1_x, p1_y, p2_x, p2_y, p3_x, p3_y):
+    
+    s10_x = p1_x - p0_x
+    s10_y = p1_y - p0_y
+    s32_x = p3_x - p2_x
+    s32_y = p3_y - p2_y
+
+    denom = s10_x * s32_y - s32_x * s10_y
+    if denom == 0:
+        return False
+    denomPositive = denom > 0;
+
+    s02_x = p0_x - p2_x
+    s02_y = p0_y - p2_y
+    s_numer = s10_x * s02_y - s10_y * s02_x
+    if (s_numer < 0) == denomPositive:
+        return False
+
+    t_numer = s32_x * s02_y - s32_y * s02_x
+    if ((t_numer < 0) == denomPositive):
+        return False
+
+    if (((s_numer > denom) == denomPositive) or ((t_numer > denom) == denomPositive)):
+        return False
+    
+    # Collision detected
+    t = t_numer / denom
+    
+    i_x = p0_x + (t * s10_x)
+    i_y = p0_y + (t * s10_y)
+    
+    return (i_x, i_y)
+
+def intersect2(p0_x, p0_y, p1_x, p1_y, p2_x, p2_y, p3_x, p3_y):
+    
+    s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
+    s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
+
+    s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+    t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+    if (s >= 0 and s <= 1 and t >= 0 and t <= 1):
+        i_x = p0_x + (t * s1_x);
+        i_y = p0_y + (t * s1_y);
+        return (i_x,i_y);
+
+    return False

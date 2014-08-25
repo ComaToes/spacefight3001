@@ -18,6 +18,9 @@ class Camera():
 
     def update(self, target):
         self.state = self.camera_func(self.state, target.rect)
+        
+    def viewport(self):
+        return pygame.Rect(0,0,WIN_WIDTH,WIN_HEIGHT)
 
 def simple_camera(camera, target_rect):
     l, t, _, _ = target_rect # l = left,  t = top
