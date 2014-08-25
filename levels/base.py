@@ -12,6 +12,8 @@ class BaseLevel(gamemode.GameMode):
         
         self.bulletSprite = pygame.image.load("resource/sprites/tempRound.png").convert_alpha()
         
+        self.heartSprite = pygame.image.load("resource/sprites/heart.png").convert_alpha()
+        
         self.mobs = pygame.sprite.Group()
         self.planets = pygame.sprite.Group()
         self.people = pygame.sprite.Group()
@@ -157,5 +159,10 @@ class BaseLevel(gamemode.GameMode):
         
         for mob in self.bullets:
             self.screen.blit(mob.image, self.camera.apply(mob))
+        
+        hx = 10
+        for i in range(0,self.player.health):
+            self.screen.blit( self.heartSprite, (hx, 10) )
+            hx += self.heartSprite.get_width() + 10
         
         pygame.display.flip()
