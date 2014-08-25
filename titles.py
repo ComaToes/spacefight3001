@@ -91,12 +91,12 @@ class Titles(gamemode.GameMode):
         
         hx = screen.get_width()/6 * 4
 
-        text = helpFont.render( "Walk: WASD" , 1 , (255,255,255) )
+        text = helpFont.render( "Walk:  WASD" , 1 , (255,255,255) )
         rect = text.get_rect( x=hx, centery=hy )
         self.screen.blit(text, rect)
         hy += rect.height
 
-        text = helpFont.render( "Jump: Space" , 1 , (255,255,255) )
+        text = helpFont.render( "Jump:  Space" , 1 , (255,255,255) )
         rect = text.get_rect( x=hx, centery=hy )
         self.screen.blit(text, rect)
         hy += rect.height
