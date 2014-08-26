@@ -2,8 +2,9 @@ import gamemode, planet, pygame, player, bullet, camera, enemy, result, math
 
 class BaseLevel(gamemode.GameMode):
     
-    def __init__(self,screen):
+    def __init__(self,screen,levelnum):
         self.screen = screen
+        self.levelnum = levelnum
         
         self.mapWidth = 2048
         self.mapHeight = 2048
@@ -137,7 +138,7 @@ class BaseLevel(gamemode.GameMode):
                 self.mobs.remove(enemy)
                 self.painSound.play()
                 if not self.player.damage():
-                    self.stop( result.Result(False, 0, 0) )
+                    self.stop( result.Result(False,self.levelnum, 0, 0) )
                     
         for b in self.bullets:
             if b.movable:
@@ -217,7 +218,7 @@ class BaseLevel(gamemode.GameMode):
             hx += self.heartSprite.get_width() + 10
         
         if self.player.x < -self.mapWidth or self.player.x > self.mapWidth*2 or self.player.y < -self.mapHeight or self.player.y > self.mapHeight*2:
-            self.stop( result.Result(False,0,0) )
+            self.stop( result.Result(False,self.levelnum,0,0) )
         
         pygame.display.flip()
 

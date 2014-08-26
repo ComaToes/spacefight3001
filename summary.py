@@ -36,7 +36,7 @@ class LevelSummary(gamemode.GameMode):
         cy = 200
         
         if self.result.success:
-            titleText = "Level Complete"
+            titleText = "Level " + str(self.result.levelnum) + " Complete"
         else:
             titleText = "You Died"
         
@@ -44,14 +44,17 @@ class LevelSummary(gamemode.GameMode):
         rect = text.get_rect( centerx=cx, centery=cy )
         self.screen.blit(text, rect)
         cy += rect.height
+        
+        cy += 50
        
         self.items = []
 
         if self.result.success:
             menuText = "Next Level"
-        else:
-            menuText = "Return to Menu"
-        
+            self.items.append( titles.MenuItem(itemFont, menuText, cx, cy) )
+            cy += 50
+
+        menuText = "Quit to Menu"
         self.items.append( titles.MenuItem(itemFont, menuText, cx, cy) )
         cy += 50
         
@@ -80,7 +83,8 @@ class LevelSummary(gamemode.GameMode):
                 for item in self.items:
                     if item.rect.collidepoint(mx,my):
                         self.explosionSound.play()
-                        self.stop( result.Result(True, 0, 0) )
+                        # hacky continue condition
+                        self.stop( result.Result(item.text == "Next Level", 0, 0, 0) )
                                  
             if e.type == pygame.MOUSEBUTTONUP:
                 None

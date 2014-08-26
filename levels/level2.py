@@ -4,7 +4,7 @@ class Level2(base.BaseLevel):
 
     def __init__(self,screen):
         
-        base.BaseLevel.__init__(self, screen)
+        base.BaseLevel.__init__(self, screen, 2)
        
         ball = pygame.image.load("resource/sprites/600blue.png").convert_alpha()
         ball2 = pygame.image.load("resource/sprites/600yellow.png").convert_alpha()
@@ -24,4 +24,4 @@ class Level2(base.BaseLevel):
     def loop(self, dt):
         base.BaseLevel.loop(self, dt)
         if len( self.enemies ) == 0:
-            self.stop( result.Result(True, 0, 0) )
+            self.stop( result.Result(True,self.levelnum, 0, 0) )

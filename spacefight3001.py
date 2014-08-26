@@ -3,6 +3,7 @@ import camera
 
 import levels.level1
 import levels.level2
+import levels.randomlevel
 import titles
 import summary
 
@@ -30,7 +31,7 @@ while True:
     lvls = []
     
     lvls.append( levels.level1.Level1(screen) )
-    lvls.append( levels.level2.Level2(screen) )
+    #lvls.append( levels.level2.Level2(screen) )
 
     for level in lvls:
         
@@ -39,5 +40,17 @@ while True:
         s = summary.LevelSummary(screen, level.result)
         s.start()
     
-        if not level.result.success:
+        if not s.result.success:
             break
+
+    levelnum = len(lvls)+1
+
+    while s.result.success:
+
+        level = levels.randomlevel.RandomLevel(screen,levelnum)
+        level.start()
+        
+        s = summary.LevelSummary(screen, level.result)
+        s.start()
+        
+        levelnum += 1
