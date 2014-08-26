@@ -1,4 +1,4 @@
-import planet, pygame, enemy, random, base, result
+import planet, pygame, enemy, random, base, result, resource
 
 class RandomLevel(base.BaseLevel):
 
@@ -6,21 +6,13 @@ class RandomLevel(base.BaseLevel):
         
         base.BaseLevel.__init__(self, screen, levelnum)
         
-        self.planetSprites = []
-        
-        self.loadPlanetSprite("600blue")
-        self.loadPlanetSprite("600yellow")
-        self.loadPlanetSprite("bunny")
-        self.loadPlanetSprite("spacehattanday")
-        self.loadPlanetSprite("spacehattannight")
-        
         for i in range( 0, random.randint(4,10) ):
             overlap = True
             while overlap:
                 x = random.randint( 0, self.mapWidth )
                 y = random.randint( 0, self.mapHeight )
                 r = random.randint( 50, 300 )
-                img = self.planetSprites[ random.randint(0,len(self.planetSprites)-1) ]
+                img = resource.planets.values()[ random.randint(0,len(resource.planets)-1) ]
                 p = planet.Planet(img, x, y, r, 0)
                 overlap = pygame.sprite.spritecollideany(p, self.planets)
 
@@ -35,10 +27,6 @@ class RandomLevel(base.BaseLevel):
             y = random.randint( 200, self.mapHeight-200 )
             self.addEnemy( enemy.Enemy( x, y ) )
     
-    # this should be elsewhere, but no time!
-    def loadPlanetSprite(self,name):
-        self.planetSprites.append( pygame.image.load("resource/sprites/"+name+".png").convert_alpha() )
-
     def loop(self, dt):
         base.BaseLevel.loop(self, dt)
         if len( self.enemies ) == 0:

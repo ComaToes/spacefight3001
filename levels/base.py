@@ -11,12 +11,12 @@ class BaseLevel(gamemode.GameMode):
         
         resource.planets
         
-        self.background = pygame.image.load("resource/images/starfield.png").convert()
+        self.background = resource.background
         
-        self.bulletSprite = pygame.image.load("resource/sprites/tempRound.png").convert_alpha()
-        self.boostSprite = pygame.image.load("resource/sprites/splode2.png").convert_alpha()
-        self.heartSprite = pygame.image.load("resource/sprites/heart.png").convert_alpha()
-        self.arrowSpriteTop = pygame.image.load("resource/sprites/arrow.png").convert_alpha()
+        self.bulletSprite = resource.sprite("tempRound")
+        self.boostSprite = resource.sprite("splode2")
+        self.heartSprite = resource.sprite("heart")
+        self.arrowSpriteTop = resource.sprite("arrow")
         self.arrowSpriteLeft = pygame.transform.rotate( self.arrowSpriteTop, 90 )
         self.arrowSpriteRight = pygame.transform.rotate( self.arrowSpriteTop, -90 )
         self.arrowSpriteBottom = pygame.transform.rotate( self.arrowSpriteTop, 180 )
@@ -33,11 +33,11 @@ class BaseLevel(gamemode.GameMode):
         
         self.camera = camera.Camera(camera.simple_camera, self.mapWidth, self.mapHeight)
         
-        self.shootSound = pygame.mixer.Sound("resource/sounds/bazooka_fire.ogg")
+        self.shootSound = resource.sounds["bazooka_fire"]
         self.shootSound.set_volume(0.75)
-        self.explosionSound = pygame.mixer.Sound("resource/sounds/explosion.ogg")
-        self.painSound = pygame.mixer.Sound("resource/sounds/human_pain.ogg")
-        self.boostSound = pygame.mixer.Sound("resource/sounds/sound_psh.ogg")
+        self.explosionSound = resource.sounds["explosion"]
+        self.painSound = resource.sounds["human_pain"]
+        self.boostSound = resource.sounds["sound_psh"]
         self.boostSound.set_volume(0.3)
 
     def addPlanet(self, planet):
@@ -60,7 +60,7 @@ class BaseLevel(gamemode.GameMode):
         self.boostSound.stop()
         
     def start(self):
-        pygame.mixer.music.load("resource/music/theme.ogg")
+        pygame.mixer.music.load( resource.music["theme"] )
         pygame.mixer.music.play(-1)
         gamemode.GameMode.start(self)
 

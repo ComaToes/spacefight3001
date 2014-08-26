@@ -1,10 +1,10 @@
-import pygame, math
+import math, resource
 
 class Anim():
     def __init__(self, name, frameCount, frameDuration):
         self.images = []
         for i in range(0,frameCount):
-            image = pygame.image.load("resource/sprites/" + name + str(i) + ".png").convert_alpha()
+            image = resource.sprite( name + str(i) )
             self.images.append( image )
         self.image = self.images[0]
         self.frameDuration = frameDuration

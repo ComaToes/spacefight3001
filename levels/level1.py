@@ -1,4 +1,4 @@
-import planet, pygame, enemy, random, base, result
+import planet, enemy, random, base, result, resource
 
 class Level1(base.BaseLevel):
 
@@ -6,15 +6,10 @@ class Level1(base.BaseLevel):
         
         base.BaseLevel.__init__(self, screen, 1)
        
-        ball = pygame.image.load("resource/sprites/600blue.png").convert_alpha()
-        ball2 = pygame.image.load("resource/sprites/600yellow.png").convert_alpha()
-        ball3 = pygame.image.load("resource/sprites/bunny.png").convert_alpha()
-        ball4 = pygame.image.load("resource/sprites/spacehattanday.png").convert_alpha()
-        
-        self.addPlanet( planet.Planet(ball, -100, 200, 150, 0) )
-        self.addPlanet( planet.Planet(ball4, 600, 350, 200, 0) )
-        self.addPlanet( planet.Planet(ball3, 200, 600, 100, 0) )
-        self.addPlanet( planet.Planet(ball2, 1800, 400, 600, 0) )
+        self.addPlanet( planet.Planet(resource.planets["600blue"], -100, 200, 150, 0) )
+        self.addPlanet( planet.Planet(resource.planets["spacehattanday"], 600, 350, 200, 0) )
+        self.addPlanet( planet.Planet(resource.planets["bunny"], 200, 600, 100, 0) )
+        self.addPlanet( planet.Planet(resource.planets["600yellow"], 1800, 400, 600, 0) )
         
         self.player.forceMove(500, 350)
 

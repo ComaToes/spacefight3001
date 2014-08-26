@@ -1,4 +1,4 @@
-import gamemode, pygame, camera, titles
+import gamemode, pygame, camera, titles, resource
 import result
 
 class LevelSummary(gamemode.GameMode):
@@ -9,10 +9,10 @@ class LevelSummary(gamemode.GameMode):
         self.screen = screen
         self.result = result
         
-        self.background = pygame.image.load("resource/images/starfield.png").convert()
+        self.background = resource.background
         
     def start(self):
-        pygame.mixer.music.load("resource/music/title_music.ogg")
+        pygame.mixer.music.load( resource.music["title_music"] )
         pygame.mixer.music.play(-1,3)
         
         self.mapWidth = camera.WIN_WIDTH
@@ -21,12 +21,10 @@ class LevelSummary(gamemode.GameMode):
             for x in range(0,self.mapWidth,self.background.get_rect().width):
                 self.screen.blit(self.background, (x,y))
                 
-        ball = pygame.image.load("resource/sprites/600blue.png").convert_alpha()
-        ball = pygame.transform.scale(ball,(1200,1200))
+        ball = pygame.transform.scale(resource.planets["600blue"],(1200,1200))
         self.screen.blit(ball,pygame.Rect(-1050,-200,0,0))
         
-        ball = pygame.image.load("resource/sprites/bunny.png").convert_alpha()
-        ball = pygame.transform.scale(ball,(1200,1200))
+        ball = pygame.transform.scale(resource.planets["bunny"],(1200,1200))
         self.screen.blit(ball,pygame.Rect(self.mapWidth-150,-200,0,0))
 
         titleFont = pygame.font.SysFont("monospace", 100, True)
@@ -59,9 +57,9 @@ class LevelSummary(gamemode.GameMode):
         cy += 50
         
         # sounds
-        self.shootSound = pygame.mixer.Sound("resource/sounds/bazooka_fire.ogg")
+        self.shootSound = resource.sounds["bazooka_fire"]
         self.shootSound.set_volume(0.5)
-        self.explosionSound = pygame.mixer.Sound("resource/sounds/explosion.ogg")
+        self.explosionSound = resource.sounds["explosion"]
         
         gamemode.GameMode.start(self)
         
