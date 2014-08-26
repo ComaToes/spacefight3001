@@ -31,8 +31,8 @@ class RandomLevel(base.BaseLevel):
         self.player.forceMove(x,y)
 
         for i in range(1, random.randint(7,20) ):
-            x = random.randint( 0, self.mapWidth )
-            y = random.randint( 0, self.mapHeight )
+            x = random.randint( 200, self.mapWidth-200 )
+            y = random.randint( 200, self.mapHeight-200 )
             self.addEnemy( enemy.Enemy( x, y ) )
     
     # this should be elsewhere, but no time!
