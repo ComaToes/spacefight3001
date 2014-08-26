@@ -56,6 +56,7 @@ class Titles(gamemode.GameMode):
         titleFont = pygame.font.SysFont("verdana", 80, True)
         itemFont = pygame.font.SysFont("monospace", 40, True)
         helpFont = pygame.font.SysFont("monospace", 32, True)
+        creditFont = pygame.font.SysFont("monospace", 20, True)
         
         cx = screen.get_width()/2
         cy = 100
@@ -111,6 +112,20 @@ class Titles(gamemode.GameMode):
         rect = text.get_rect( x=hx, centery=hy )
         self.screen.blit(text, rect)
         hy += rect.height
+        
+        cy = self.mapHeight - 10
+        text = creditFont.render( "Assets: teamawesome" , 1 , (255,255,255) )
+        rect = text.get_rect()
+        rect.x = 10
+        rect.y = cy - rect.height
+        cy -= rect.height
+        self.screen.blit(text, rect)
+        
+        text = creditFont.render( "  Game: ComaToes" , 1 , (255,255,255) )
+        rect = text.get_rect()
+        rect.x = 10
+        rect.y = cy - rect.height
+        self.screen.blit(text, rect)
         
         """
         ix = screen.get_width()/20
