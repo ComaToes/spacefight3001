@@ -27,7 +27,7 @@ class LevelSummary(gamemode.GameMode):
         
         ball = pygame.image.load("resource/sprites/bunny.png").convert_alpha()
         ball = pygame.transform.scale(ball,(1200,1200))
-        self.screen.blit(ball,pygame.Rect(1450,-200,0,0))
+        self.screen.blit(ball,pygame.Rect(self.mapWidth-150,-200,0,0))
 
         titleFont = pygame.font.SysFont("monospace", 100, True)
         itemFont = pygame.font.SysFont("monospace", 32, True)
