@@ -2,11 +2,10 @@
 .pydevproject
 *.pyc
 *.xcf
-build/spacefight3001/logdict2.7.8.final.0-1.log
+*.log
 *.toc
 *.pkg
 *.pyz
 *.manifest
-build/spacefight3001/warnspacefight3001.txt
-dist/spacefight3001.exe
+build/*
 spacefight3001.spec
