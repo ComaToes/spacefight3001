@@ -31,7 +31,7 @@ while True:
     lvls = []
     
     lvls.append( levels.level1.Level1(screen) )
-    #lvls.append( levels.level2.Level2(screen) )
+    lvls.append( levels.level2.Level2(screen) )
 
     for level in lvls:
         
