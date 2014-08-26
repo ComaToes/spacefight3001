@@ -1,4 +1,4 @@
-import gamemode, pygame, camera
+import gamemode, pygame, camera, resource
 
 class MenuItem():
     
@@ -27,7 +27,7 @@ class Titles(gamemode.GameMode):
         
         self.screen = screen
         
-        self.background = pygame.image.load("resource/images/starfield.png").convert()
+        self.background = resource.background
         
         self.mapWidth = camera.WIN_WIDTH
         self.mapHeight = camera.WIN_HEIGHT
@@ -36,20 +36,16 @@ class Titles(gamemode.GameMode):
                 self.screen.blit(self.background, (x,y))
         
         # planets
-        ball = pygame.image.load("resource/sprites/600blue.png").convert_alpha()
-        ball = pygame.transform.scale(ball,(300,300))
+        ball = pygame.transform.scale( resource.planets["600blue"], (300,300) )
         screen.blit(ball,pygame.Rect(50,50,100,100))
 
-        ball = pygame.image.load("resource/sprites/spacehattanday.png").convert_alpha()
-        ball = pygame.transform.scale(ball,(400,400))
+        ball = pygame.transform.scale( resource.planets["spacehattanday"], (400,400) )
         screen.blit(ball,pygame.Rect(800,150,100,100))
 
-        ball = pygame.image.load("resource/sprites/bunny.png").convert_alpha()
-        ball = pygame.transform.scale(ball,(200,200))
+        ball = pygame.transform.scale( resource.planets["bunny"], (200,200) )
         screen.blit(ball,pygame.Rect(300,500,100,100))
 
-        ball = pygame.image.load("resource/sprites/600yellow.png").convert_alpha()
-        ball = pygame.transform.scale(ball,(1200,1200))
+        ball = pygame.transform.scale( resource.planets["600yellow"], (1200,1200) )
         screen.blit(ball,pygame.Rect(1450,-200,0,0))
         
         # text
@@ -127,32 +123,13 @@ class Titles(gamemode.GameMode):
         rect.y = cy - rect.height
         self.screen.blit(text, rect)
         
-        """
-        ix = screen.get_width()/20
-        
-        text = helpFont.render( "Shoot the aliens" , 1 , (255,255,255) )
-        rect = text.get_rect( x=ix, centery=iy )
-        self.screen.blit(text, rect)
-        iy += rect.height
-        
-        text = helpFont.render( "Don't let them touch you" , 1 , (255,255,255) )
-        rect = text.get_rect( x=ix, centery=iy )
-        self.screen.blit(text, rect)
-        iy += rect.height
-        
-        text = helpFont.render( "Don't fly off into deep space" , 1 , (255,255,255) )
-        rect = text.get_rect( x=ix, centery=iy )
-        self.screen.blit(text, rect)
-        iy += rect.height
-        """
-
         # music & sounds
-        self.shootSound = pygame.mixer.Sound("resource/sounds/bazooka_fire.ogg")
+        self.shootSound = resource.sounds["bazooka_fire"]
         self.shootSound.set_volume(0.5)
-        self.explosionSound = pygame.mixer.Sound("resource/sounds/explosion.ogg")
+        self.explosionSound = resource.sounds["explosion"]
 
     def start(self):
-        pygame.mixer.music.load("resource/music/title_music.ogg")
+        pygame.mixer.music.load( resource.music["title_music"] ) 
         pygame.mixer.music.play(-1)
         gamemode.GameMode.start(self)
     

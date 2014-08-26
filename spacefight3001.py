@@ -1,6 +1,7 @@
 import pygame
 import camera
 
+import resource
 import levels.level1
 import levels.level2
 import levels.randomlevel
@@ -19,6 +20,8 @@ size = width, height = camera.WIN_WIDTH, camera.WIN_HEIGHT
 screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("Space Fight 3000 (II)")
+
+resource.init()
 
 while True:
 

@@ -1,4 +1,4 @@
-import gamemode, planet, pygame, player, bullet, camera, enemy, result, math
+import gamemode, planet, pygame, player, bullet, camera, enemy, result, resource
 
 class BaseLevel(gamemode.GameMode):
     
@@ -8,6 +8,8 @@ class BaseLevel(gamemode.GameMode):
         
         self.mapWidth = 2048
         self.mapHeight = 2048
+        
+        resource.planets
         
         self.background = pygame.image.load("resource/images/starfield.png").convert()
         
